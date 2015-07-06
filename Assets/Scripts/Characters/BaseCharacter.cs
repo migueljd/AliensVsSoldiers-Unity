@@ -2,8 +2,10 @@
 using System.Collections;
 
 [RequireComponent(typeof (NavMeshAgent))]
-[RequireComponent(typeof (SphereCollider))]
 public class BaseCharacter : MonoBehaviour {
+
+	public delegate void CharacterDied (BaseCharacter character);
+	public CharacterDied onCharacterDiedE;
 
 	protected NavMeshAgent agent;
 
@@ -28,9 +30,22 @@ public class BaseCharacter : MonoBehaviour {
 	public virtual void TakeDamage(float damage){
 		this.hp = this.hp - damage;
 
+		if (hp <= 0)
+			Dead ();
+//		Debug.Log ("I, " + this.name + " took " + damage + " and now I have " + hp);
+
+	}
+
+	public void Dead(){
+		if(onCharacterDiedE != null) onCharacterDiedE (this);
+		Destroy (this.gameObject);
+
 	}
 
 	public virtual void AttackFrame(){
 		
+	}
+
+	public virtual void StartAttackAnimation(){
 	}
 }

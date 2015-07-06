@@ -9,9 +9,9 @@ public class PlayerController : MonoBehaviour {
 
 	Vector3 goal;
 
+	public LayerMask raycastLayerToIgnore;
 
-	public float touchRaycastRange = 10;
-	
+
 
 	void Awake(){
 	}
@@ -37,25 +37,30 @@ public class PlayerController : MonoBehaviour {
 			Vector2 touchPosition =Input.GetTouch(0).position;
 			Ray ray = mainCamera.ScreenPointToRay(touchPosition);
 
-			Physics.Raycast(ray, out hit);
 
+			if(Physics.Raycast(ray, out hit, Mathf.Infinity, ~(raycastLayerToIgnore))){
 
-			//Player should move torwards that point
-			if(hit.collider.tag == "Level"){
-				goal = hit.point;
+				Debug.Log (hit.collider.name);
 
-			} 
-			//Player should have that object as the new target
-			else if(hit.collider.tag == "Enemy"){
-				player.target = hit.collider.GetComponent<BaseEnemy>();
-				goal = limbo;
+				//Player should move torwards that point
+				if(hit.collider.tag == "Level"){
+					goal = hit.point;
+
+				} 
+				//Player should have that object as the new target
+				else if(hit.collider.tag == "Enemy"){
+					Debug.Log ("Target acquired");
+					Debug.Log (hit.collider.name);
+					player.target = hit.collider.GetComponent<BaseEnemy>();
+					goal = limbo;
+				}
 			}
 		}
 
 		//-------------------------------------------------------------------------------------------------------------------
 		//MOVEMENT LOGIC
 		//-------------------------------------------------------------------------------------------------------------------
-		if ((!goal.Equals (limbo) && goal != null) || player.target != null) {
+		if (!goal.Equals (limbo)  || player.target != null) {
 			if(!goal.Equals (limbo)){
 				player.MoveTowards(goal);
 
@@ -71,19 +76,26 @@ public class PlayerController : MonoBehaviour {
 		if (player.enemiesInRange.Count > 0) {
 
 			bool targetInRange = false;
+			player.UnassignTargetDelegate();
 
-			foreach(BaseEnemy enemy in player.enemiesInRange){
-				if(enemy.Equals(player.target)){
+			foreach (BaseEnemy enemy in player.enemiesInRange) {
+				if (enemy.Equals (player.target)) {
 					player.nextEnemyToAttack = enemy;
 					targetInRange = true;
 				}
 			}
 
-			if(!targetInRange){
-				player.nextEnemyToAttack = player.enemiesInRange[0];
+			if (!targetInRange) {
+				player.nextEnemyToAttack = player.enemiesInRange [0];
 			}
 
-			player.StartAttackAnimation();
+			player.AssignTargetDelegate();
+			
+			player.StartAttackAnimation ();
+
+		} else {
+
+			player.nextEnemyToAttack = null;
 		}
 		
 	}

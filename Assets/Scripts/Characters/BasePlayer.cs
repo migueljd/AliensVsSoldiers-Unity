@@ -32,29 +32,37 @@ public class BasePlayer : BaseCharacter {
 		
 	}
 
-	void OnTriggerEnter(Collider other){
-
-
-		if (other.tag == "Enemy") {
-			enemiesInRange.Add (other.GetComponent<BaseEnemy>());
-			
-		}
-		
+	public void EnemyEnteredRange(BaseEnemy enemy){
+		enemiesInRange.Add (enemy);
 	}
 
-	void OnTriggerExit(Collider other){
-		if (other.tag == "Enemy") {
-			enemiesInRange.Remove(other.GetComponent<BaseEnemy>());
-		}
+	public void EnemyLeftRange(BaseEnemy enemy){
+		enemiesInRange.Remove (enemy);
 	}
 
-	public void StartAttackAnimation(){
+
+	public override void StartAttackAnimation(){
 		if (nextEnemyToAttack != null)
 			this.transform.LookAt (nextEnemyToAttack.transform.position);
 		//this is a placeholder, the warrior animation should be other
 		this.GetComponent<WarriorAnimationDemo>().animator.SetTrigger("Attack1Trigger");
 	}
-	
 
+	public void AssignTargetDelegate(){
+		if (nextEnemyToAttack != null) {
+			nextEnemyToAttack.onCharacterDiedE += TargetDied;
+		}
+	}
+
+	public void UnassignTargetDelegate(){
+		if (nextEnemyToAttack != null) {
+			nextEnemyToAttack.onCharacterDiedE -= TargetDied;
+		}
+	}
+
+	public void TargetDied(BaseCharacter character){
+		enemiesInRange.Remove((BaseEnemy) character);
+		Debug.Log (enemiesInRange.Count);
+	}
 
 }

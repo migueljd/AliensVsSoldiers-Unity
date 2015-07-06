@@ -14,6 +14,6 @@ public class AlienPlayer : BasePlayer {
 	}
 
 	public override void AttackFrame(){
-		base.DealDamage (target);
+		if(nextEnemyToAttack != null)base.DealDamage (nextEnemyToAttack);
 	}
 }
