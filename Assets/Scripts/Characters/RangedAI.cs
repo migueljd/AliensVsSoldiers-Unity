@@ -15,7 +15,7 @@ public class RangedAI : BaseEnemy {
 	protected override void Start () {
 		base.Start ();
 		if (shotPrefab == null) {
-			shotPrefab = (GameObject) Resources.Load("ShotObjects/Default");
+			shotPrefab = (GameObject) Resources.Load("Prefabs/ShotObjects/Default");
 		}
 
 
