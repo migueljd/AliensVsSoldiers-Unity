@@ -9,9 +9,9 @@ public class BaseCharacter : MonoBehaviour {
 
 	protected NavMeshAgent agent;
 
-	public float hp;
+	public int hp;
 
-	public float damage;
+	public int damage;
 
 
 	// Use this for initialization
@@ -25,9 +25,12 @@ public class BaseCharacter : MonoBehaviour {
 
 	public virtual void DealDamage(BaseCharacter character){
 		character.TakeDamage (damage);
+		if (this.tag == "Enemy") {
+			Debug.Log (hp);
+		}
 	}
 
-	public virtual void TakeDamage(float damage){
+	public virtual void TakeDamage(int damage){
 		this.hp = this.hp - damage;
 
 		if (hp <= 0)
@@ -44,6 +47,10 @@ public class BaseCharacter : MonoBehaviour {
 
 	public virtual void AttackFrame(){
 		
+	}
+
+	public virtual void EndAttackFrame(){
+	
 	}
 
 	public virtual void StartAttackAnimation(){

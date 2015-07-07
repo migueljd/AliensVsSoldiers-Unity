@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour {
 			
 			player.StartAttackAnimation ();
 
-		} else {
+		} else{
 
 			player.nextEnemyToAttack = null;
 		}

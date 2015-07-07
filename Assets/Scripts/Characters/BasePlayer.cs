@@ -28,10 +28,6 @@ public class BasePlayer : BaseCharacter {
 		agent.SetDestination (position);
 	}
 
-	public void StartAttack(){
-		
-	}
-
 	public void EnemyEnteredRange(BaseEnemy enemy){
 		enemiesInRange.Add (enemy);
 	}
@@ -62,7 +58,6 @@ public class BasePlayer : BaseCharacter {
 
 	public void TargetDied(BaseCharacter character){
 		enemiesInRange.Remove((BaseEnemy) character);
-		Debug.Log (enemiesInRange.Count);
 	}
 
 }

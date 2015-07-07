@@ -6,6 +6,7 @@ public class RangedAI : BaseEnemy {
 	public GameObject shotPrefab;
 
 
+	public float bestDistanceFromTarget;
 
 	private float shootSpeed = .5f;
 	private float nextAttackTime;
@@ -16,17 +17,20 @@ public class RangedAI : BaseEnemy {
 		if (shotPrefab == null) {
 			shotPrefab = (GameObject) Resources.Load("ShotObjects/Default");
 		}
+
+
+		if (bestDistanceFromTarget == 0)
+			bestDistanceFromTarget = 1;
 	}
 	
 	// Update is called once per frame
 	protected override void Update () {
 		base.Update ();
 		if (target != null) {
-			this.transform.LookAt(target.transform.position + new Vector3(0,.5f,0));
-			if(Time.time >= nextAttackTime){
+			if(Time.time >= nextAttackTime && targetInRange){
 				Shoot ();
 				nextAttackTime =Time.time +  shootSpeed;
-			}
+			} 
 		}
 	}
 
@@ -38,11 +42,21 @@ public class RangedAI : BaseEnemy {
 
 		((GameObject)Instantiate (shotPrefab, this.transform.position, Quaternion.LookRotation (this.transform.forward))).GetComponent<Projectile>().damage = this.damage;
 	}
-
-
+	
 
 	public override void StartAttackAnimation(){
 		//Once there is an animation, this will need to be changed
+	}
+
+	protected override void MoveTowardsTarget (Vector3 position)
+	{
+		if(target != null){
+			if(Vector3.Distance(this.transform.position, target.transform.position) <= bestDistanceFromTarget){
+				position = -this.transform.forward*bestDistanceFromTarget;
+			}
+
+			base.MoveTowardsTarget (position);
+		}
 	}
 	
 
