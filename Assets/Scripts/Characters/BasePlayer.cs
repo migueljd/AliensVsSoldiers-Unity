@@ -32,10 +32,7 @@ public class BasePlayer : BaseCharacter {
 	protected override void Update () {
 		base.Update ();
 	}
-
-	public virtual void MoveTowards(Vector3 position){
-		agent.SetDestination (position);
-	}
+	
 
 	public void EnemyEnteredRange(BaseEnemy enemy){
 		if(!enemiesInRange.Contains(enemy))enemiesInRange.Add (enemy);
@@ -46,11 +43,8 @@ public class BasePlayer : BaseCharacter {
 	}
 
 	public void EnemyDied(BaseCharacter character){
-		Debug.Log (string.Format("Character Died and it is {0} that character is a BaseEnemy and it is {1} that it's contained in list",
-		           (character is BaseEnemy), enemiesInRange.Contains ((BaseEnemy)character)));
 		if ((character is BaseEnemy) && enemiesInRange.Contains ((BaseEnemy)character)) {
 			enemiesInRange.Remove ((BaseEnemy)character);
-			Debug.Log (string.Format ("Enemy died and removed, current count is {0}", enemiesInRange.Count));
 		}
 
 	}

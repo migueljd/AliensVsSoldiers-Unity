@@ -40,17 +40,18 @@ public class PlayerController : MonoBehaviour {
 			Physics.Raycast(ray, out hit);
 
 
+			if(hit.collider != null){
+				//Player should move torwards that point
+				if(hit.collider.tag == "Level"){
+					goal = hit.point;
 
-			//Player should move torwards that point
-			if(hit.collider.tag == "Level"){
-				goal = hit.point;
 
-
-			} 
-			//Player should have that object as the new target
-			else if(hit.collider.tag == "Enemy"){
-				player.target = hit.collider.GetComponent<BaseEnemy>();
-				goal = limbo;
+				} 
+				//Player should have that object as the new target
+				else if(hit.collider.tag == "Enemy"){
+					player.target = hit.collider.GetComponent<BaseEnemy>();
+					goal = limbo;
+				}
 			}
 		}
 
@@ -64,6 +65,7 @@ public class PlayerController : MonoBehaviour {
 			} else if(player.target != null ){
 				player.MoveTowards(player.target.transform.position);
 			}
+
 		}
 
 

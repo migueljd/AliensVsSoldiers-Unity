@@ -56,7 +56,6 @@ namespace EnemySpawning{
 
 		void Update(){
 			if(currentEnemyCount < enemiesAliveLimit && enemiesToBeSpawned > 0 && Time.time >= timeForNextSpawn){
-				Debug.Log (currentEnemyCount);
 				timeForNextSpawn = Time.time + timeBetweenSpawns;
 				Spawn ();
 			}
@@ -66,7 +65,7 @@ namespace EnemySpawning{
 			int chosenSpawner = Random.Range (0, spawners.Count);
 			int chosenEnemy = Random.Range (0, possibleEnemies.Length);
 
-			GameObject newEnemy=(GameObject)Instantiate (possibleEnemies [chosenEnemy], spawners [chosenSpawner].transform.position, Quaternion.identity);
+			Instantiate (possibleEnemies [chosenEnemy], spawners [chosenSpawner].transform.position, Quaternion.identity);
 
 			currentEnemyCount += 1;
 			enemiesToBeSpawned -= 1;

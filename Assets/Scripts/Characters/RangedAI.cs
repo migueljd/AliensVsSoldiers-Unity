@@ -7,9 +7,9 @@ public class RangedAI : BaseEnemy {
 
 
 	public float bestDistanceFromTarget;
-
-	private float shootSpeed = .5f;
-	private float nextAttackTime;
+//
+//	private float shootSpeed = .5f;
+//	private float nextAttackTime;
 
 	// Use this for initialization
 	protected override void Start () {
@@ -27,11 +27,28 @@ public class RangedAI : BaseEnemy {
 	protected override void Update () {
 		base.Update ();
 		if (target != null) {
-			if(Time.time >= nextAttackTime && targetInRange){
-				Shoot ();
-				nextAttackTime =Time.time +  shootSpeed;
+			if(targetInRange){
+				StartAttackAnimation();
 			} 
 		}
+	}
+
+	public override void MoveTowards (Vector3 position)
+	{
+		if(target != null){
+			if(Vector3.Distance(this.transform.position, target.transform.position) <= bestDistanceFromTarget){
+				position = -this.transform.forward*bestDistanceFromTarget;
+			}
+			
+			base.MoveTowards (position);
+		}
+	}
+
+	//------------------------------------------------------------------------------------------------------------------------------
+	//ATTACK FUNCTIONS
+	//------------------------------------------------------------------------------------------------------------------------------
+	public void AnimationEventAttack(){
+		AttackFrame ();
 	}
 
 	public override void AttackFrame(){
@@ -42,22 +59,14 @@ public class RangedAI : BaseEnemy {
 
 		((GameObject)Instantiate (shotPrefab, this.transform.position, Quaternion.LookRotation (this.transform.forward))).GetComponent<Projectile>().damage = this.damage;
 	}
-	
+
 
 	public override void StartAttackAnimation(){
-		//Once there is an animation, this will need to be changed
+		GetComponent<Animator> ().SetTrigger ("Attack1Trigger");
 	}
 
-	protected override void MoveTowardsTarget (Vector3 position)
-	{
-		if(target != null){
-			if(Vector3.Distance(this.transform.position, target.transform.position) <= bestDistanceFromTarget){
-				position = -this.transform.forward*bestDistanceFromTarget;
-			}
 
-			base.MoveTowardsTarget (position);
-		}
-	}
+
 	
 
 }

@@ -13,6 +13,8 @@ public class BaseCharacter : MonoBehaviour {
 
 	public int damage;
 
+	public int distanceThresholdToStop;
+
 	void OnEnable(){
 		onCharacterDiedE += GameController.CharacterDied;
 	}
@@ -28,6 +30,7 @@ public class BaseCharacter : MonoBehaviour {
 	
 	// Update is called once per frame
 	protected virtual void Update () {
+
 	}
 
 	public virtual void DealDamage(BaseCharacter character){
@@ -50,6 +53,14 @@ public class BaseCharacter : MonoBehaviour {
 		if(onCharacterDiedE != null) onCharacterDiedE (this);
 		Destroy (this.gameObject);
 
+	}
+
+	//It evaluates if the player should go to the given point, if it should, it starts moving and return true, false otherwise
+	public virtual void MoveTowards(Vector3 position){
+//		if (Vector3.Distance (agent.destination, this.transform.position) <= distanceThresholdToStop && agent.destination != this.transform.position) {
+//			agent.updateRotation = false;
+//		}
+		agent.SetDestination (position);
 	}
 
 	public virtual void AttackFrame(){
