@@ -39,31 +39,18 @@ public class PlayerController : MonoBehaviour {
 
 			Physics.Raycast(ray, out hit);
 
-<<<<<<< HEAD
-			if(Physics.Raycast(ray, out hit, Mathf.Infinity, ~(raycastLayerToIgnore))){
 
-=======
->>>>>>> origin/master
 
 			//Player should move torwards that point
 			if(hit.collider.tag == "Level"){
 				goal = hit.point;
 
-<<<<<<< HEAD
-				} 
-				//Player should have that object as the new target
-				else if(hit.collider.tag == "Enemy"){
 
-					player.target = hit.collider.GetComponent<BaseEnemy>();
-					goal = limbo;
-				}
-=======
 			} 
 			//Player should have that object as the new target
 			else if(hit.collider.tag == "Enemy"){
 				player.target = hit.collider.GetComponent<BaseEnemy>();
 				goal = limbo;
->>>>>>> origin/master
 			}
 		}
 
