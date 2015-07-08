@@ -7,6 +7,8 @@ public class RangedAI : BaseEnemy {
 
 
 	public float bestDistanceFromTarget;
+
+	public Transform weaponShootingSocket;
 //
 //	private float shootSpeed = .5f;
 //	private float nextAttackTime;
@@ -57,7 +59,7 @@ public class RangedAI : BaseEnemy {
 
 	public void Shoot(){
 
-		((GameObject)Instantiate (shotPrefab, this.transform.position, Quaternion.LookRotation (this.transform.forward))).GetComponent<Projectile>().damage = this.damage;
+		((GameObject)Instantiate (shotPrefab, weaponShootingSocket.position, Quaternion.LookRotation (this.transform.forward))).GetComponent<Projectile>().damage = this.damage;
 	}
 
 

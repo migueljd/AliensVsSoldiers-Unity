@@ -13,7 +13,6 @@ public class BaseCharacter : MonoBehaviour {
 
 	public int damage;
 
-	public int distanceThresholdToStop;
 
 	void OnEnable(){
 		onCharacterDiedE += GameController.CharacterDied;
@@ -26,6 +25,7 @@ public class BaseCharacter : MonoBehaviour {
 	// Use this for initialization
 	protected virtual void Start () {
 		this.agent = this.GetComponent<NavMeshAgent> ();
+		agent.updateRotation = false;
 	}
 	
 	// Update is called once per frame

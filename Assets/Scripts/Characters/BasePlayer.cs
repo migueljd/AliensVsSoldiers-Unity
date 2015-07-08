@@ -13,6 +13,9 @@ public class BasePlayer : BaseCharacter {
 	[HideInInspector]
 	public BaseEnemy nextEnemyToAttack;
 
+	public GameObject meshGameObject;
+
+
 	void OnEnable(){
 		GameController.onCharacterDiedE += EnemyDied;
 	}
@@ -50,7 +53,7 @@ public class BasePlayer : BaseCharacter {
 	}
 
 	public override void StartAttackAnimation(){
-		this.GetComponent<WarriorAnimationDemo> ().animator.SetTrigger ("Attack1Trigger");
+		meshGameObject.GetComponent<WarriorAnimationDemo> ().animator.SetTrigger ("Attack1Trigger");
 	}
 	
 

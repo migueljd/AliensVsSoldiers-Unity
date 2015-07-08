@@ -29,13 +29,16 @@ public class Projectile : MonoBehaviour {
 	void OnCollisionEnter(Collision collision){
 
 		if (collision.collider.tag == "Player" && enemyProjectile) {
-			collision.collider.GetComponent<BaseCharacter>().TakeDamage(this.damage);
-			Destroy(this.gameObject);
+			collision.collider.GetComponent<BaseCharacter> ().TakeDamage (this.damage);
+			Destroy (this.gameObject);
+		} else if (collision.collider.tag == "Enemy" && !enemyProjectile) {
+			collision.collider.GetComponent<BaseCharacter> ().TakeDamage (this.damage);
+			Destroy (this.gameObject);
 		} 
-		else if (collision.collider.tag == "Enemy" && !enemyProjectile) {
-			collision.collider.GetComponent<BaseCharacter>().TakeDamage(this.damage);
-			Destroy(this.gameObject);
+		else if (collision.collider.tag == "Level") {
+			Destroy (this.gameObject);
 		}
+
 	}
 
 }
