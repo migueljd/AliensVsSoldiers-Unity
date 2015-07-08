@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviour {
 
 			if(Physics.Raycast(ray, out hit, Mathf.Infinity, ~(raycastLayerToIgnore))){
 
-				Debug.Log (hit.collider.name);
 
 				//Player should move torwards that point
 				if(hit.collider.tag == "Level"){
@@ -49,8 +48,7 @@ public class PlayerController : MonoBehaviour {
 				} 
 				//Player should have that object as the new target
 				else if(hit.collider.tag == "Enemy"){
-					Debug.Log ("Target acquired");
-					Debug.Log (hit.collider.name);
+
 					player.target = hit.collider.GetComponent<BaseEnemy>();
 					goal = limbo;
 				}
@@ -73,6 +71,7 @@ public class PlayerController : MonoBehaviour {
 		//-------------------------------------------------------------------------------------------------------------------
 		//ATTACK LOGIC
 		//-------------------------------------------------------------------------------------------------------------------
+		Debug.Log (player.enemiesInRange.Count);
 		if (player.enemiesInRange.Count > 0) {
 
 			bool targetInRange = false;

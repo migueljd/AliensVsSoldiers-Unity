@@ -16,6 +16,7 @@ public class AttackCollider : MonoBehaviour {
 
 
 	void OnTriggerEnter(Collider other){
+		Debug.Log ("Collision occurred");
 		if (isAttacking) {
 			if (isEnemyAttackCollider && other.tag == "Player") {
 				DealDamageToCharacter (other.GetComponent<BasePlayer> ());

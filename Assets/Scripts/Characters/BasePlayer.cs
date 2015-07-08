@@ -13,6 +13,9 @@ public class BasePlayer : BaseCharacter {
 	[HideInInspector]
 	public BaseEnemy nextEnemyToAttack;
 
+
+
+
 	// Use this for initialization
 	protected override void Start () {
 		base.Start();
@@ -29,7 +32,7 @@ public class BasePlayer : BaseCharacter {
 	}
 
 	public void EnemyEnteredRange(BaseEnemy enemy){
-		enemiesInRange.Add (enemy);
+		if(!enemiesInRange.Contains(enemy))enemiesInRange.Add (enemy);
 	}
 
 	public void EnemyLeftRange(BaseEnemy enemy){
@@ -57,7 +60,10 @@ public class BasePlayer : BaseCharacter {
 	}
 
 	public void TargetDied(BaseCharacter character){
+
 		enemiesInRange.Remove((BaseEnemy) character);
+		if(enemiesInRange.Count ==0)
+		Debug.Log ("Debugging count when enemy died " + enemiesInRange.Count);
 	}
 
 }
