@@ -28,7 +28,6 @@ public class Projectile : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision){
 
-		Debug.Log ("Shot hit something");
 		if (collision.collider.tag == "Player" && enemyProjectile) {
 			collision.collider.GetComponent<BaseCharacter>().TakeDamage(this.damage);
 			Destroy(this.gameObject);

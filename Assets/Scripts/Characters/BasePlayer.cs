@@ -13,7 +13,13 @@ public class BasePlayer : BaseCharacter {
 	[HideInInspector]
 	public BaseEnemy nextEnemyToAttack;
 
-
+	void OnEnable(){
+		GameController.onCharacterDiedE += EnemyDied;
+	}
+	
+	void OnDisable(){
+		GameController.onCharacterDiedE -= EnemyDied;
+	}
 
 
 	// Use this for initialization
@@ -39,28 +45,18 @@ public class BasePlayer : BaseCharacter {
 		enemiesInRange.Remove (enemy);
 	}
 
-	void OnTriggerEnter(Collider other){
-
-
-		if (other.tag == "Enemy") {
-			enemiesInRange.Add (other.GetComponent<BaseEnemy>());
-			
+	public void EnemyDied(BaseCharacter character){
+		Debug.Log (string.Format("Character Died and it is {0} that character is a BaseEnemy and it is {1} that it's contained in list",
+		           (character is BaseEnemy), enemiesInRange.Contains ((BaseEnemy)character)));
+		if ((character is BaseEnemy) && enemiesInRange.Contains ((BaseEnemy)character)) {
+			enemiesInRange.Remove ((BaseEnemy)character);
+			Debug.Log (string.Format ("Enemy died and removed, current count is {0}", enemiesInRange.Count));
 		}
-		
+
 	}
 
-	void OnTriggerExit(Collider other){
-		if (other.tag == "Enemy") {
-			enemiesInRange.Remove(other.GetComponent<BaseEnemy>());
-		}
-	}
-
-	public void TargetDied(BaseCharacter character){
-
-		enemiesInRange.Remove((BaseEnemy) character);
-		if(enemiesInRange.Count ==0)
-		Debug.Log ("Debugging count when enemy died " + enemiesInRange.Count);
-
+	public override void StartAttackAnimation(){
+		this.GetComponent<WarriorAnimationDemo> ().animator.SetTrigger ("Attack1Trigger");
 	}
 	
 

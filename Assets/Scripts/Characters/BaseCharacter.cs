@@ -13,6 +13,13 @@ public class BaseCharacter : MonoBehaviour {
 
 	public int damage;
 
+	void OnEnable(){
+		onCharacterDiedE += GameController.CharacterDied;
+	}
+
+	void OnDisable(){
+		onCharacterDiedE -= GameController.CharacterDied;
+	}
 
 	// Use this for initialization
 	protected virtual void Start () {

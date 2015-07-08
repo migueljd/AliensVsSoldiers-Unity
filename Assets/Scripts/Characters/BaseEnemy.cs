@@ -9,12 +9,13 @@ public class BaseEnemy : BaseCharacter {
 	protected bool targetInRange;
 
 	private float destinationUpdateTime;
-
+	
 
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
 		target = GameObject.FindGameObjectWithTag ("Player").GetComponent<BasePlayer> ();
+
 	}
 	
 	// Update is called once per frame

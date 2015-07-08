@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour {
 		//-------------------------------------------------------------------------------------------------------------------
 		//MOVEMENT LOGIC
 		//-------------------------------------------------------------------------------------------------------------------
-		if ((!goal.Equals (limbo) && goal != null) || player.target != null) {
+		if (!goal.Equals (limbo) || player.target != null) {
 			if(!goal.Equals (limbo)){
 				player.MoveTowards(goal);
 
@@ -70,7 +70,6 @@ public class PlayerController : MonoBehaviour {
 		//-------------------------------------------------------------------------------------------------------------------
 		//ATTACK LOGIC
 		//-------------------------------------------------------------------------------------------------------------------
-		Debug.Log (player.enemiesInRange.Count);
 		if (player.enemiesInRange.Count > 0) {
 
 			bool targetInRange = false;
