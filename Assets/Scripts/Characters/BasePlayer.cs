@@ -13,7 +13,18 @@ public class BasePlayer : BaseCharacter {
 	[HideInInspector]
 	public BaseEnemy nextEnemyToAttack;
 
+	public GameObject meshGameObject;
 
+	public delegate void PlayerTookDamage(int damage);
+	public PlayerTookDamage onPlayerTookDamageE;
+
+	void OnEnable(){
+		GameController.onCharacterDiedE += EnemyDied;
+	}
+	
+	void OnDisable(){
+		GameController.onCharacterDiedE -= EnemyDied;
+	}
 
 
 	// Use this for initialization
@@ -26,10 +37,7 @@ public class BasePlayer : BaseCharacter {
 	protected override void Update () {
 		base.Update ();
 	}
-
-	public virtual void MoveTowards(Vector3 position){
-		agent.SetDestination (position);
-	}
+	
 
 	public void EnemyEnteredRange(BaseEnemy enemy){
 		if(!enemiesInRange.Contains(enemy))enemiesInRange.Add (enemy);
@@ -39,28 +47,21 @@ public class BasePlayer : BaseCharacter {
 		enemiesInRange.Remove (enemy);
 	}
 
-	void OnTriggerEnter(Collider other){
-
-
-		if (other.tag == "Enemy") {
-			enemiesInRange.Add (other.GetComponent<BaseEnemy>());
-			
+	public void EnemyDied(BaseCharacter character){
+		if ((character is BaseEnemy) && enemiesInRange.Contains ((BaseEnemy)character)) {
+			enemiesInRange.Remove ((BaseEnemy)character);
 		}
-		
+
 	}
 
-	void OnTriggerExit(Collider other){
-		if (other.tag == "Enemy") {
-			enemiesInRange.Remove(other.GetComponent<BaseEnemy>());
-		}
+	public override void StartAttackAnimation(){
+		meshGameObject.GetComponent<WarriorAnimationDemo> ().animator.SetTrigger ("Attack1Trigger");
 	}
 
-	public void TargetDied(BaseCharacter character){
-
-		enemiesInRange.Remove((BaseEnemy) character);
-		if(enemiesInRange.Count ==0)
-		Debug.Log ("Debugging count when enemy died " + enemiesInRange.Count);
-
+	public override void TakeDamage(int damage){
+		base.TakeDamage (damage);
+		if (onPlayerTookDamageE != null)
+			onPlayerTookDamageE (damage);
 	}
 	
 

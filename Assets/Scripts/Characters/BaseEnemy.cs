@@ -9,12 +9,13 @@ public class BaseEnemy : BaseCharacter {
 	protected bool targetInRange;
 
 	private float destinationUpdateTime;
-
+	
 
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
 		target = GameObject.FindGameObjectWithTag ("Player").GetComponent<BasePlayer> ();
+
 	}
 	
 	// Update is called once per frame
@@ -23,7 +24,7 @@ public class BaseEnemy : BaseCharacter {
 		if (target != null) {
 			Vector3 targetPosition = target.transform.position;
 
-			MoveTowardsTarget(targetPosition);
+			MoveTowards(targetPosition);
 
 			Vector3 lookAtVector = new Vector3 (targetPosition.x, this.transform.position.y, targetPosition.z);
 
@@ -31,10 +32,7 @@ public class BaseEnemy : BaseCharacter {
 		}
 
 	}
-
-	protected virtual void MoveTowardsTarget(Vector3 position){
-		agent.SetDestination (position);
-	}
+	
 
 	public void PlayerEnteredRange(BasePlayer player){
 		targetInRange = true;

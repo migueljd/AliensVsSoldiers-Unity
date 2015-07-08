@@ -27,6 +27,7 @@ namespace EnemySpawning{
 
 		private List<EnemySpawner> spawners;
 
+
 		void Awake(){
 			if (instance == null)
 				instance = this;
@@ -34,23 +35,27 @@ namespace EnemySpawning{
 				Destroy (this.gameObject);
 		}
 
+		void OnEnable(){
+			GameController.onCharacterDiedE += OnCharacterDied;
+		}
+
+		void OnDisable(){
+			GameController.onCharacterDiedE -= OnCharacterDied;
+		}
+
 		// Use this for initialization
 		void Start () {
 			possibleEnemies = (GameObject[]) Resources.LoadAll<GameObject> (Variables.enemiesPrefabPath);
-			Debug.Log (Application.dataPath + Variables.enemiesPrefabPath);
 
 			spawners = new List<EnemySpawner> ();
 			foreach(GameObject go in GameObject.FindGameObjectsWithTag("EnemySpawner")){
 				spawners.Add(go.GetComponent<EnemySpawner>());
 			}
 
-			Debug.Log (string.Format("Enemies count: {0}", possibleEnemies.Length));
-			Debug.Log (string.Format("Enemies spawners count: {0}", spawners.Count));
-
 		}
 
 		void Update(){
-			if(currentEnemyCount < enemiesAliveLimit && Time.time >= timeForNextSpawn){
+			if(currentEnemyCount < enemiesAliveLimit && enemiesToBeSpawned > 0 && Time.time >= timeForNextSpawn){
 				timeForNextSpawn = Time.time + timeBetweenSpawns;
 				Spawn ();
 			}
@@ -60,15 +65,16 @@ namespace EnemySpawning{
 			int chosenSpawner = Random.Range (0, spawners.Count);
 			int chosenEnemy = Random.Range (0, possibleEnemies.Length);
 
-			GameObject newEnemy=(GameObject)Instantiate (possibleEnemies [chosenEnemy], spawners [chosenSpawner].transform.position, Quaternion.identity);
-
-			newEnemy.GetComponent<BaseEnemy> ().onCharacterDiedE += OnCharacterDied;
+			Instantiate (possibleEnemies [chosenEnemy], spawners [chosenSpawner].transform.position, Quaternion.identity);
 
 			currentEnemyCount += 1;
+			enemiesToBeSpawned -= 1;
+
 		}
 
 		private void OnCharacterDied(BaseCharacter character){
 			currentEnemyCount -= 1;
+			currentEnemyCount = currentEnemyCount < 0 ? 0 : currentEnemyCount; 
 		}
 
 	}

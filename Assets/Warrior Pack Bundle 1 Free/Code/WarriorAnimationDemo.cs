@@ -4,6 +4,7 @@ using System.Collections;
 public class WarriorAnimationDemo : MonoBehaviour {
 
 	public Animator animator;
+	public NavMeshAgent agent;
 
 	float rotationSpeed = 30;
 	Vector3 inputVec;
@@ -18,8 +19,8 @@ public class WarriorAnimationDemo : MonoBehaviour {
 	void Update()
 	{
 		//Get input from controls
-		float z = Input.GetAxisRaw("Horizontal");
-		float x = -(Input.GetAxisRaw("Vertical"));
+		float z = agent.velocity.z;
+		float x = agent.velocity.x;
 		inputVec = new Vector3(x, 0, z);
 
 		//Apply inputs to animator
@@ -93,5 +94,13 @@ public class WarriorAnimationDemo : MonoBehaviour {
 //			else
 //				StartCoroutine (COStunPause(.6f));
 //		}
+	}
+
+	public void AnimationEventAttackFrame(){
+		this.transform.parent.GetComponent<AlienPlayer>().AttackFrame ();
+	}
+	
+	public void AnimationEventEndAttackFrame(){
+		this.transform.parent.GetComponent<AlienPlayer>().EndAttackFrame ();
 	}
 }

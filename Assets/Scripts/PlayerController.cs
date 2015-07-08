@@ -40,37 +40,38 @@ public class PlayerController : MonoBehaviour {
 			Physics.Raycast(ray, out hit);
 
 
+			if(hit.collider != null){
+				//Player should move torwards that point
+				if(hit.collider.tag == "Level"){
+					goal = hit.point;
 
-			//Player should move torwards that point
-			if(hit.collider.tag == "Level"){
-				goal = hit.point;
 
-
-			} 
-			//Player should have that object as the new target
-			else if(hit.collider.tag == "Enemy"){
-				player.target = hit.collider.GetComponent<BaseEnemy>();
-				goal = limbo;
+				} 
+				//Player should have that object as the new target
+				else if(hit.collider.tag == "Enemy"){
+					player.target = hit.collider.GetComponent<BaseEnemy>();
+					goal = limbo;
+				}
 			}
 		}
 
 		//-------------------------------------------------------------------------------------------------------------------
 		//MOVEMENT LOGIC
 		//-------------------------------------------------------------------------------------------------------------------
-		if ((!goal.Equals (limbo) && goal != null) || player.target != null) {
+		if (!goal.Equals (limbo) || player.target != null) {
 			if(!goal.Equals (limbo)){
 				player.MoveTowards(goal);
 
 			} else if(player.target != null ){
 				player.MoveTowards(player.target.transform.position);
 			}
+
 		}
 
 
 		//-------------------------------------------------------------------------------------------------------------------
 		//ATTACK LOGIC
 		//-------------------------------------------------------------------------------------------------------------------
-		Debug.Log (player.enemiesInRange.Count);
 		if (player.enemiesInRange.Count > 0) {
 
 			bool targetInRange = false;
