@@ -15,6 +15,8 @@ public class BasePlayer : BaseCharacter {
 
 	public GameObject meshGameObject;
 
+	public delegate void PlayerTookDamage(int damage);
+	public PlayerTookDamage onPlayerTookDamageE;
 
 	void OnEnable(){
 		GameController.onCharacterDiedE += EnemyDied;
@@ -54,6 +56,12 @@ public class BasePlayer : BaseCharacter {
 
 	public override void StartAttackAnimation(){
 		meshGameObject.GetComponent<WarriorAnimationDemo> ().animator.SetTrigger ("Attack1Trigger");
+	}
+
+	public override void TakeDamage(int damage){
+		base.TakeDamage (damage);
+		if (onPlayerTookDamageE != null)
+			onPlayerTookDamageE (damage);
 	}
 	
 
