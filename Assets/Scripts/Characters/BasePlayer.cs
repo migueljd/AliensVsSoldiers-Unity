@@ -31,17 +31,12 @@ public class BasePlayer : BaseCharacter {
 		agent.SetDestination (position);
 	}
 
-<<<<<<< HEAD
 	public void EnemyEnteredRange(BaseEnemy enemy){
 		if(!enemiesInRange.Contains(enemy))enemiesInRange.Add (enemy);
 	}
 
 	public void EnemyLeftRange(BaseEnemy enemy){
 		enemiesInRange.Remove (enemy);
-=======
-	public void StartAttack(){
-		
->>>>>>> origin/master
 	}
 
 	void OnTriggerEnter(Collider other){
@@ -60,19 +55,12 @@ public class BasePlayer : BaseCharacter {
 		}
 	}
 
-<<<<<<< HEAD
 	public void TargetDied(BaseCharacter character){
 
 		enemiesInRange.Remove((BaseEnemy) character);
 		if(enemiesInRange.Count ==0)
 		Debug.Log ("Debugging count when enemy died " + enemiesInRange.Count);
-=======
-	public void StartAttackAnimation(){
-		if (nextEnemyToAttack != null)
-			this.transform.LookAt (nextEnemyToAttack.transform.position);
-		//this is a placeholder, the warrior animation should be other
-		this.GetComponent<WarriorAnimationDemo>().animator.SetTrigger("Attack1Trigger");
->>>>>>> origin/master
+
 	}
 	
 
