@@ -17,13 +17,13 @@ public class PlayerRangeLogic : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider other){
 		if (other.tag == "Enemy") {
-			player.EnemyEnteredRange(other.GetComponent<BaseEnemy>());
+			player.EnemyEnteredRange(other.GetComponent<BaseEnemyAI>());
 		}	
 	}
 	
 	void OnTriggerExit(Collider other){
 		if (other.tag == "Enemy") {
-			player.EnemyLeftRange(other.GetComponent<BaseEnemy>());
+			player.EnemyLeftRange(other.GetComponent<BaseEnemyAI>());
 		}
 	}
 }

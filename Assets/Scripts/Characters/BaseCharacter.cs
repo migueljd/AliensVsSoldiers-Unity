@@ -25,7 +25,6 @@ public class BaseCharacter : MonoBehaviour {
 	// Use this for initialization
 	protected virtual void Start () {
 		this.agent = this.GetComponent<NavMeshAgent> ();
-		agent.updateRotation = false;
 	}
 	
 	// Update is called once per frame
@@ -63,14 +62,26 @@ public class BaseCharacter : MonoBehaviour {
 		agent.SetDestination (position);
 	}
 
+	
+	/// <summary>
+	/// Any attack animation should signal when the AttackFrame will be called and how it would work around it. In melee characters this should
+	/// be used to signal at which frame the "Can deal damage starting from this frame" happens.
+	/// </summary>
 	public virtual void AttackFrame(){
 		
 	}
 
+	/// <summary>
+	/// This is mostly for melee characters, used to signal "It won't be dealing damage starting from this frame
+	/// </summary>
 	public virtual void EndAttackFrame(){
 	
 	}
 
+	/// <summary>
+	/// Every attack should start with an animation, and then, an animation event should call at what point of the animation all the
+	/// attacl logic will happen
+	/// </summary>
 	public virtual void StartAttackAnimation(){
 	}
 }

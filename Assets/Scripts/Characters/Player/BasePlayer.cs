@@ -7,11 +7,11 @@ public class BasePlayer : BaseCharacter {
 
 
 	[HideInInspector]
-	public List<BaseEnemy> enemiesInRange;
+	public List<BaseEnemyAI> enemiesInRange;
 	[HideInInspector]
-	public BaseEnemy target;
+	public BaseEnemyAI target;
 	[HideInInspector]
-	public BaseEnemy nextEnemyToAttack;
+	public BaseEnemyAI nextEnemyToAttack;
 
 	public GameObject meshGameObject;
 
@@ -30,7 +30,7 @@ public class BasePlayer : BaseCharacter {
 	// Use this for initialization
 	protected override void Start () {
 		base.Start();
-		enemiesInRange = new List<BaseEnemy> ();
+		enemiesInRange = new List<BaseEnemyAI> ();
 	}
 	
 	// Update is called once per frame
@@ -39,23 +39,23 @@ public class BasePlayer : BaseCharacter {
 	}
 	
 
-	public void EnemyEnteredRange(BaseEnemy enemy){
+	public void EnemyEnteredRange(BaseEnemyAI enemy){
 		if(!enemiesInRange.Contains(enemy))enemiesInRange.Add (enemy);
 	}
 
-	public void EnemyLeftRange(BaseEnemy enemy){
+	public void EnemyLeftRange(BaseEnemyAI enemy){
 		enemiesInRange.Remove (enemy);
 	}
 
 	public void EnemyDied(BaseCharacter character){
-		if ((character is BaseEnemy) && enemiesInRange.Contains ((BaseEnemy)character)) {
-			enemiesInRange.Remove ((BaseEnemy)character);
+		if ((character is BaseEnemyAI) && enemiesInRange.Contains ((BaseEnemyAI)character)) {
+			enemiesInRange.Remove ((BaseEnemyAI)character);
 		}
 
 	}
 
 	public override void StartAttackAnimation(){
-		meshGameObject.GetComponent<WarriorAnimationDemo> ().animator.SetTrigger ("Attack1Trigger");
+		meshGameObject.GetComponent<Animator> ().SetTrigger ("Attack1Trigger");
 	}
 
 	public override void TakeDamage(int damage){

@@ -3,6 +3,23 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
+	/*
+	 * This class is used to control the player. 
+	 * It's Update method is divided in 3 parts:
+	 * 		TOUCH: check if a touch happened, and if it did, check if it was a goal or an enemy, and act accordingly
+	 * 		MOVEMENT: Given there is a goal selected or an enemy, move according to that
+	 * 		ATTACK: Check how the player is supposed to attack(in this case, a melee character that attacks anything that comes in range) and act
+	 */
+
+
+	//this delegate is used for whenever the player selects an enemy
+	public delegate void EnemySelected(BaseEnemyAI enemy);
+	public static EnemySelected onEnemySelected;
+
+	//this delegate is used for whenever the player selects a new goal
+	public delegate void GoalSelected(Vector3 goal);
+	public static GoalSelected onGoalSelected;
+
 	BasePlayer player;
 	Camera mainCamera;
 	Vector3 limbo = new Vector3 (99999, 99999, 99999);
@@ -45,12 +62,16 @@ public class PlayerController : MonoBehaviour {
 				if(hit.collider.tag == "Level"){
 					goal = hit.point;
 
+					//if anyone is listening, let them know a new goal position has been selected
+					if(onGoalSelected != null) onGoalSelected(goal);
 
 				} 
 				//Player should have that object as the new target
 				else if(hit.collider.tag == "Enemy"){
-					player.target = hit.collider.GetComponent<BaseEnemy>();
+					player.target = hit.collider.GetComponent<BaseEnemyAI>();
 					goal = limbo;
+					//if anyone is listening, let them know an enemy has been selected
+					if(onEnemySelected != null) onEnemySelected(player.target);
 				}
 			}
 		}
@@ -76,7 +97,7 @@ public class PlayerController : MonoBehaviour {
 
 			bool targetInRange = false;
 
-			foreach(BaseEnemy enemy in player.enemiesInRange){
+			foreach(BaseEnemyAI enemy in player.enemiesInRange){
 				if(enemy.Equals(player.target)){
 					player.nextEnemyToAttack = enemy;
 					targetInRange = true;

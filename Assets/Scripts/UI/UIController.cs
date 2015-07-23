@@ -17,7 +17,6 @@ public class UIController : MonoBehaviour {
 
 	void OnEnable(){
 		GameController.onCharacterDiedE += OnCharacterDied;
-		GameObject.FindGameObjectWithTag ("Player").GetComponent<BasePlayer> ().onPlayerTookDamageE += OnPlayerTookDamage;
 	}
 
 	void OnDisable(){
@@ -26,6 +25,7 @@ public class UIController : MonoBehaviour {
 	}
 
 	void Start(){
+		GameObject.FindGameObjectWithTag ("Player").GetComponent<BasePlayer> ().onPlayerTookDamageE += OnPlayerTookDamage;
 
 		playerHealth = GameObject.FindGameObjectWithTag ("Player").GetComponent<BasePlayer> ().hp;
 		playerMaxHealth = playerHealth;
@@ -34,7 +34,7 @@ public class UIController : MonoBehaviour {
 	}
 
 	private void OnCharacterDied(BaseCharacter character){
-		if (character is BaseEnemy) {
+		if (character is BaseEnemyAI) {
 			killCount++;
 			enemyKillCount.text = "Enemies killed: " + killCount;
 		}

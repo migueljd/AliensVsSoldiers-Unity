@@ -20,7 +20,7 @@ public class AttackCollider : MonoBehaviour {
 			if (isEnemyAttackCollider && other.tag == "Player") {
 				DealDamageToCharacter (other.GetComponent<BasePlayer> ());
 			} else if (!isEnemyAttackCollider && other.tag == "Enemy") {
-				DealDamageToCharacter (other.GetComponent<BaseEnemy> ());
+				DealDamageToCharacter (other.GetComponent<BaseEnemyAI> ());
 			}
 		}
 	}

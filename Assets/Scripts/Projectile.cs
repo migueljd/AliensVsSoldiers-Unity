@@ -21,21 +21,18 @@ public class Projectile : MonoBehaviour {
 	void Update () {
 		if (Time.time >= deathTime)
 			Destroy (this.gameObject);
-
-
 		transform.Translate (Vector3.forward * speed * Time.deltaTime);
 	}
 
-	void OnCollisionEnter(Collision collision){
-
-		if (collision.collider.tag == "Player" && enemyProjectile) {
-			collision.collider.GetComponent<BaseCharacter> ().TakeDamage (this.damage);
+	void OnTriggerEnter(Collider other){
+		if (other.tag == "Player" && enemyProjectile) {
+			other.GetComponent<BaseCharacter> ().TakeDamage (this.damage);
 			Destroy (this.gameObject);
-		} else if (collision.collider.tag == "Enemy" && !enemyProjectile) {
-			collision.collider.GetComponent<BaseCharacter> ().TakeDamage (this.damage);
+		} else if (other.tag == "Enemy" && !enemyProjectile) {
+			other.GetComponent<BaseCharacter> ().TakeDamage (this.damage);
 			Destroy (this.gameObject);
 		} 
-		else if (collision.collider.tag == "Level") {
+		else if (other.tag == "Level") {
 			Destroy (this.gameObject);
 		}
 

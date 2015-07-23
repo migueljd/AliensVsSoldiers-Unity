@@ -23,13 +23,13 @@ public class PlayerFollowingCamera : MonoBehaviour {
 			Vector3 currentDiff = player.position - lastPosition;
 
 			float newX = this.transform.position.x + currentDiff.x;
-			newX = newX > maxX ? maxX : (newX < minX ? minX : newX);
+//			newX = newX > maxX ? maxX : (newX < minX ? minX : newX);
 
 
 			float newY = this.transform.position.y;
 
 			float newZ = this.transform.position.z + currentDiff.z;
-			newZ = newZ > maxZ ? maxZ : (newZ < minZ ? minZ : newZ);
+//			newZ = newZ > maxZ ? maxZ : (newZ < minZ ? minZ : newZ);
 
 
 
