@@ -29,8 +29,14 @@ public class UIController : MonoBehaviour {
 
 		playerHealth = GameObject.FindGameObjectWithTag ("Player").GetComponent<BasePlayer> ().hp;
 		playerMaxHealth = playerHealth;
-		maxHealthPosition = healthBar.transform.position;
+		maxHealthPosition = healthBar.transform.localPosition;
 		minHealthPosition = new Vector3(maxHealthPosition.x - healthBar.rect.width, maxHealthPosition.y, maxHealthPosition.z);
+
+//		healthBar.position = new Vector3(136.7f, 1094.0f, 0.0f);
+
+		Debug.Log (maxHealthPosition);
+		Debug.Log (minHealthPosition);
+		Debug.Log (healthBar.localScale);
 	}
 
 	private void OnCharacterDied(BaseCharacter character){
@@ -43,6 +49,9 @@ public class UIController : MonoBehaviour {
 	private void OnPlayerTookDamage(int damage){
 		playerHealth = playerHealth - damage < 0? 0 : (playerHealth - damage > playerMaxHealth? playerMaxHealth : playerHealth - damage);
 
-		healthBar.position = Vector3.Lerp(minHealthPosition, maxHealthPosition, (float)playerHealth/(float)playerMaxHealth);
+		healthBar.localPosition = Vector3.Lerp(minHealthPosition, maxHealthPosition, (float)playerHealth/(float)playerMaxHealth);
+		Debug.Log ((float)playerHealth / (float)playerMaxHealth);
+		Debug.Log ("Lerp result would be(local): " + healthBar.localPosition);
+		Debug.Log ("Lerp result would be(global): " + healthBar.position);
 	}
 }

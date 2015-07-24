@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections;
+
+#if UNITY_EDITOR 
+using UnityEditor;
+#endif
 
 public abstract class BaseEnemyAI : BaseCharacter {
 
@@ -85,7 +88,7 @@ public abstract class BaseEnemyAI : BaseCharacter {
 
 
 
-
+	#if UNITY_EDITOR 
 	//This method helps checking if the enemy is attacking/detecting correctly
 	void OnDrawGizmos(){
 		Handles.color = Color.yellow;
@@ -102,6 +105,7 @@ public abstract class BaseEnemyAI : BaseCharacter {
 		Handles.color = Color.Lerp(Color.red, Color.green, 0.8f);
 		Handles.DrawWireDisc(this.transform.position, Vector3.up, attackRange);
 	}
+	#endif
 
 }
 

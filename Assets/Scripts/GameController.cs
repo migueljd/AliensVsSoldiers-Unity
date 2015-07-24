@@ -50,7 +50,9 @@ public class GameController : MonoBehaviour {
 			onCharacterDiedE (character);
 	}
 
-
+	private void MissionComplete(){
+		
+	}
 
 	//------------------------------------------------------------------------------------------------------------------------------------
 	//Listening related methods(see OnEnable and OnDisable method to check which delegate they are related to)
