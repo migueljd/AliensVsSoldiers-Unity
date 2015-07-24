@@ -14,11 +14,11 @@ public class BaseCharacter : MonoBehaviour {
 	public int damage;
 
 
-	void OnEnable(){
+	protected virtual void OnEnable(){
 		onCharacterDiedE += GameController.CharacterDied;
 	}
 
-	void OnDisable(){
+	protected virtual void OnDisable(){
 		onCharacterDiedE -= GameController.CharacterDied;
 	}
 
@@ -29,7 +29,8 @@ public class BaseCharacter : MonoBehaviour {
 	
 	// Update is called once per frame
 	protected virtual void Update () {
-
+		if (!GameController.gameRunning)
+			return;
 	}
 
 	public virtual void DealDamage(BaseCharacter character){

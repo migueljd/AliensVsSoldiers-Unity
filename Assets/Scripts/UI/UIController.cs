@@ -8,6 +8,11 @@ public class UIController : MonoBehaviour {
 
 	public RectTransform healthBar;
 
+	public Text finalText;
+	public RectTransform finalPanel;
+
+	public Text healthCount;
+
 	private int killCount;
 
 	private Vector3 maxHealthPosition;
@@ -15,43 +20,61 @@ public class UIController : MonoBehaviour {
 	private int playerHealth;
 	private int playerMaxHealth;
 
+	private BasePlayer player;
+
 	void OnEnable(){
 		GameController.onCharacterDiedE += OnCharacterDied;
+		GameController.onGameOverE += UpdateFinalPanel;
 	}
 
 	void OnDisable(){
 		GameController.onCharacterDiedE -= OnCharacterDied;
-		GameObject.FindGameObjectWithTag ("Player").GetComponent<BasePlayer> ().onPlayerTookDamageE -= OnPlayerTookDamage;
+		GameController.onGameOverE -= UpdateFinalPanel;
+
+		if(player != null) player.onPlayerTookDamageE -= OnPlayerTookDamage;
 	}
 
 	void Start(){
-		GameObject.FindGameObjectWithTag ("Player").GetComponent<BasePlayer> ().onPlayerTookDamageE += OnPlayerTookDamage;
+		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<BasePlayer> ();
+		player.onPlayerTookDamageE += OnPlayerTookDamage;
 
 		playerHealth = GameObject.FindGameObjectWithTag ("Player").GetComponent<BasePlayer> ().hp;
 		playerMaxHealth = playerHealth;
 		maxHealthPosition = healthBar.transform.localPosition;
 		minHealthPosition = new Vector3(maxHealthPosition.x - healthBar.rect.width, maxHealthPosition.y, maxHealthPosition.z);
+		healthCount.text = string.Format ("{0}/{1}", playerHealth, playerMaxHealth);
 
-//		healthBar.position = new Vector3(136.7f, 1094.0f, 0.0f);
 
-		Debug.Log (maxHealthPosition);
-		Debug.Log (minHealthPosition);
-		Debug.Log (healthBar.localScale);
 	}
 
 	private void OnCharacterDied(BaseCharacter character){
 		if (character is BaseEnemyAI) {
 			killCount++;
 			enemyKillCount.text = "Enemies killed: " + killCount;
-		}
+		} 
 	}
+
+	public void UpdateFinalPanel(bool victory){
+		if (victory) {
+			finalText.text = "Victory achieved!";
+			finalText.color = Color.yellow;
+		}
+		else{
+			finalText.text = "Mission failed!";
+			finalText.color = Color.red;
+		}
+
+		finalPanel.gameObject.SetActive (true);
+	}
+
+	//--------------------------------------------------------------------------------------------------------------------------------
+	//HEALTH BAR RELATED
+	//--------------------------------------------------------------------------------------------------------------------------------
 
 	private void OnPlayerTookDamage(int damage){
 		playerHealth = playerHealth - damage < 0? 0 : (playerHealth - damage > playerMaxHealth? playerMaxHealth : playerHealth - damage);
 
 		healthBar.localPosition = Vector3.Lerp(minHealthPosition, maxHealthPosition, (float)playerHealth/(float)playerMaxHealth);
-		Debug.Log ((float)playerHealth / (float)playerMaxHealth);
-		Debug.Log ("Lerp result would be(local): " + healthBar.localPosition);
-		Debug.Log ("Lerp result would be(global): " + healthBar.position);
+		healthCount.text = string.Format ("{0}/{1}", playerHealth, playerMaxHealth);
 	}
 }

@@ -18,11 +18,13 @@ public class BasePlayer : BaseCharacter {
 	public delegate void PlayerTookDamage(int damage);
 	public PlayerTookDamage onPlayerTookDamageE;
 
-	void OnEnable(){
+	protected override void OnEnable(){
+		base.OnEnable ();
 		GameController.onCharacterDiedE += EnemyDied;
 	}
 	
-	void OnDisable(){
+	protected override void OnDisable(){
+		base.OnEnable ();
 		GameController.onCharacterDiedE -= EnemyDied;
 	}
 

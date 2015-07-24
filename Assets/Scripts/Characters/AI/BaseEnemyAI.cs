@@ -129,15 +129,19 @@ public class IdleState : FSMState{
 	
 	public override void Reason (GameObject player, GameObject npc)
 	{
-		if(Vector3.Distance(player.transform.position, npc.transform.position) <= detectionRange){
-			npc.GetComponent<BaseEnemyAI>().SetTransition(Transition.PlayerDetected);
+		if (player != null) {
+			if (Vector3.Distance (player.transform.position, npc.transform.position) <= detectionRange) {
+				npc.GetComponent<BaseEnemyAI> ().SetTransition (Transition.PlayerDetected);
+			}
 		}
 	}
 
 	public override void Act (GameObject player, GameObject npc)
 	{
-		if (Vector3.Distance (npc.transform.position, this.initialPosition) > 0.1) {
-			npc.GetComponent<NavMeshAgent>().SetDestination(this.initialPosition);
+		if (player != null) {
+			if (Vector3.Distance (npc.transform.position, this.initialPosition) > 0.1) {
+				npc.GetComponent<NavMeshAgent> ().SetDestination (this.initialPosition);
+			}
 		}
 
 	}
@@ -157,25 +161,27 @@ public class ChasingPlayerState : FSMState{
 
 	public override void Reason (GameObject player, GameObject npc)
 	{
-
-		float distanceToPLayer = Vector3.Distance (player.transform.position, npc.transform.position);
-		if ( distanceToPLayer > detectionRange) {
-			npc.GetComponent<BaseEnemyAI> ().SetTransition (Transition.PlayerConcealed);
-		} 
-
+		if (player != null) {
+			float distanceToPLayer = Vector3.Distance (player.transform.position, npc.transform.position);
+			if (distanceToPLayer > detectionRange) {
+				npc.GetComponent<BaseEnemyAI> ().SetTransition (Transition.PlayerConcealed);
+			} 
+		}
 	}
 
 	public override void Act (GameObject player, GameObject npc)
 	{
-		float distanceToPLayer = Vector3.Distance (player.transform.position, npc.transform.position);
-		if (distanceToPLayer > attackRange) {
+		if (player != null) {
+			float distanceToPLayer = Vector3.Distance (player.transform.position, npc.transform.position);
+			if (distanceToPLayer > attackRange) {
 			
-			//Go to a point between your current position and the player position that would put you in attack range
-			Vector3 aiGoal = (player.transform.position - npc.transform.position).normalized * attackRange + player.transform.position;
-			npc.GetComponent<BaseEnemyAI> ().MoveTowards(aiGoal);
-		} else {
-			npc.transform.LookAt(player.gameObject.transform);
-			npc.GetComponent<BaseEnemyAI>().Attack();
+				//Go to a point between your current position and the player position that would put you in attack range
+				Vector3 aiGoal = (player.transform.position - npc.transform.position).normalized * attackRange + player.transform.position;
+				npc.GetComponent<BaseEnemyAI> ().MoveTowards (aiGoal);
+			} else {
+				npc.transform.LookAt (player.gameObject.transform);
+				npc.GetComponent<BaseEnemyAI> ().Attack ();
+			}
 		}
 	}
 

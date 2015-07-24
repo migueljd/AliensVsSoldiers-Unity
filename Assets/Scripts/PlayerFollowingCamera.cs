@@ -19,7 +19,10 @@ public class PlayerFollowingCamera : MonoBehaviour {
 	}
 
 	void Update(){
-		if (player.position != lastPosition) {
+		if (!GameController.gameRunning)
+			return;
+
+		if (player != null && player.position != lastPosition) {
 			Vector3 currentDiff = player.position - lastPosition;
 
 			float newX = this.transform.position.x + currentDiff.x;
